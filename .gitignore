@@ -18,6 +18,7 @@
 # Others
 .env
 .blank
+.idea
 
 # Package Files #
 *.jar

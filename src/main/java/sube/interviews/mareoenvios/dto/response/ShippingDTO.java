@@ -1,8 +1,8 @@
-package sube.interviews.mareoenvios.dto;
+package sube.interviews.mareoenvios.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;
-import sube.interviews.mareoenvios.dto.response.CustomerDTO;
+import sube.interviews.mareoenvios.dto.ShippingItemDTO;
 
 import java.util.Date;
 import java.util.List;

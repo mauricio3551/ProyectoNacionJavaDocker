@@ -1,4 +1,4 @@
-package sube.interviews.mareoenvios.dto;
+package sube.interviews.mareoenvios.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;

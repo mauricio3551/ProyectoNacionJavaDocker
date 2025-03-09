@@ -38,4 +38,18 @@ public class CustomerMapper {
         return customerDTO;
     }
 
+    public Customer toEntity(CustomerDTO customerDTO) {
+        if (customerDTO == null) {
+            return null;
+        }
+
+        Customer customer = new Customer();
+        customer.setFirstName(customerDTO.getFirstName());
+        customer.setLastName(customerDTO.getLastName());
+        customer.setAddress(customerDTO.getAddress());
+        customer.setCity(customerDTO.getCity());
+
+        return customer;
+    }
+
 }
