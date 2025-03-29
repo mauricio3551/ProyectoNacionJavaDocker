@@ -1,8 +1,14 @@
 package sube.interviews.mareoenvios.util.mapper;
 
 import org.springframework.stereotype.Component;
+import sube.interviews.mareoenvios.dto.ShippingItemDTO;
+import sube.interviews.mareoenvios.dto.request.ShippingRequestDTO;
 import sube.interviews.mareoenvios.dto.response.ShippingDTO;
 import sube.interviews.mareoenvios.entity.Shipping;
+import sube.interviews.mareoenvios.entity.ShippingItem;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ShippingMapper {
@@ -15,7 +21,7 @@ public class ShippingMapper {
         this.productMapper = productMapper;
     }
 
-    public Shipping toEntity(ShippingDTO dto) {
+    public Shipping toEntity(ShippingRequestDTO dto) {
         if (dto == null) {
             return null;
         }
@@ -25,8 +31,6 @@ public class ShippingMapper {
         shipping.setSendDate(dto.getSendDate());
         shipping.setArriveDate(dto.getArriveDate());
         shipping.setPriority(dto.getPriority());
-        shipping.setCustomer(customerMapper.toEntity(dto.getCustomer()));
-        //shipping.setShippingItems(toShippingItemEntityList(dto.getShippingItems(), shipping));
 
         return shipping;
     }
@@ -42,9 +46,29 @@ public class ShippingMapper {
         dto.setSendDate(shipping.getSendDate());
         dto.setArriveDate(shipping.getArriveDate());
         dto.setPriority(shipping.getPriority());
-        dto.setCustomer(customerMapper.toDTO(shipping.getCustomer())); // Mapeo de Customer
-        //dto.setShippingItems(toShippingItemDTOList(shipping.getShippingItems())); // Mapeo de items
+        dto.setCustomer(customerMapper.toDTO(shipping.getCustomer()));
+
+        if (shipping.getShippingItems() != null) {
+            List<ShippingItemDTO> shippingItems = shipping.getShippingItems().stream()
+                    .map(this::toShippingItemDTO)
+                    .collect(Collectors.toList());
+            dto.setShippingItems(shippingItems);
+        }
 
         return dto;
     }
+
+    private ShippingItemDTO toShippingItemDTO(ShippingItem item) {
+        if (item == null) {
+            return null;
+        }
+
+        ShippingItemDTO dto = new ShippingItemDTO();
+        dto.setId(item.getId());
+        dto.setProduct(productMapper.toDTO(item.getProduct())); // Mapeo de Producto
+        dto.setProductCount(item.getProductCount());
+
+        return dto;
+    }
+
 }
